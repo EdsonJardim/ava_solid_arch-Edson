@@ -1,15 +1,22 @@
 const express = require('express')
 const cors = require('cors')
-const UserRouters = require('./routers/UserRouters')
+
+const UserRoutes = require('./routes/UserRoutes')
+const PetRoutes = require('./routes/PetRoutes')
 
 const app = express()
 
 app.use(express.json())
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
+app.use(cors())
 
 app.use(express.static('public'))
 
-app.use('/users', UserRouters)
+app.use('/users', UserRoutes)
 
-app.listen(5000)
+app.use('/pets', PetRoutes)
+
+app.listen(5000, () => {
+  console.log('Servidor rodando na porta 5000')
+})
+

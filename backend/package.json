@@ -2,6 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "pet get app",
+
   "keywords": [
     "nodejs",
     "express",
@@ -16,18 +17,24 @@
     "programacao",
     "2"
   ],
+
   "repository": {
     "type": "git",
     "url": "github.com/Fatec-Luiz-Marchesan/solid_arch_turma_6"
   },
+
   "license": "MIT",
   "author": "João Gabriel Ferreira",
+
   "type": "commonjs",
+
   "main": "index.js",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js localhost 3000"
+    "start": "nodemon index.js"
   },
+
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -40,3 +47,4 @@
     "nodemon": "^3.1.14"
   }
 }
+
