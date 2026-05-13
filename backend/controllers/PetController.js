@@ -200,5 +200,85 @@ module.exports = class PetController {
 
  }
 
+ static async updatePet(req, res) {
+
+  const id = req.params.id
+
+  const { name, age, weight, color, available } = req.body
+
+  const updatedData = {}
+
+  const reqImages = req.files
+
+  if (!ObjectId.isValid(id)) {
+
+    return res.status(422).json({
+      message: 'ID inválido!',
+    })
+
+  }
+
+  const pet = await Pet.findOne({ _id: id })
+
+  if (!pet) {
+
+    return res.status(404).json({
+      message: 'Pet não encontrado!',
+    })
+
+  }
+
+  const token = getToken(req)
+
+  const user = await getUserByToken(token)
+
+  if (pet.user._id.toString() !== user._id.toString()) {
+
+    return res.status(422).json({
+      message: 'Houve um problema em processar sua solicitação!',
+    })
+
+  }
+
+  if (name) {
+    updatedData.name = name
+  }
+
+  if (age) {
+    updatedData.age = age
+  }
+
+  if (weight) {
+    updatedData.weight = weight
+  }
+
+  if (color) {
+    updatedData.color = color
+  }
+
+  if (available) {
+    updatedData.available = available
+  }
+
+  if (reqImages.length > 0) {
+
+    updatedData.images = []
+
+    reqImages.forEach((image) => {
+
+      updatedData.images.push(image.filename)
+
+    })
+
+  }
+
+  await Pet.findByIdAndUpdate(id, updatedData)
+
+  res.status(200).json({
+    message: 'Pet atualizado com sucesso!',
+  })
+
+ }
+
 }
 
