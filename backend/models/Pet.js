@@ -1,43 +1,47 @@
-const mongoose = require('../db/conn')
+const mongoose = require('mongoose')
+
 const { Schema } = mongoose
 
 const Pet = mongoose.model(
-    'Pet',
-    new Schema(
-        {
-            name: {
-                type: String,
-                require: true
-            },
-            age: {
-                type: Number,
-                require: true
-            },
-            weight: {
-                type: Number,
-                require: true
-            },
-            color: {
-                type: String,
-                require: true
-            },
-            image: {
-                type: Array,
-                require: true
-            },
-            available: {
-                type: Boolean,
-                require: true
-            },
-            user: {
-                type: Object,
-                adopter: Object
-            }
-        },
-        {
-            timestamp: true
-        }
-    )
+  'Pet',
+  new Schema(
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+
+      age: {
+        type: String,
+        required: true,
+      },
+
+      weight: {
+        type: String,
+        required: true,
+      },
+
+      color: {
+        type: String,
+        required: true,
+      },
+
+      images: {
+        type: Array,
+        required: true,
+      },
+
+      available: {
+        type: Boolean,
+      },
+
+      user: Object,
+
+      adopter: Object,
+    },
+    { timestamps: true }
+  )
 )
 
 module.exports = Pet
+

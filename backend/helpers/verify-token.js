@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const getToken = require('./get-tokens')
+const getToken = require('./get-token')
 
 const checkToken = (req, res, next) => {
 
