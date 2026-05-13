@@ -280,5 +280,81 @@ module.exports = class PetController {
 
  }
 
+ static async schedule(req, res) {
+
+  const id = req.params.id
+
+  const pet = await Pet.findOne({ _id: id })
+
+  if (!pet) {
+
+    return res.status(404).json({
+      message: 'Pet não encontrado!',
+    })
+
+  }
+
+  const token = getToken(req)
+
+  const user = await getUserByToken(token)
+
+  if (pet.user._id.equals(user._id)) {
+
+    return res.status(422).json({
+      message: 'Você não pode agendar visita para seu próprio pet!',
+    })
+
+  }
+
+  pet.adopter = {
+    _id: user._id,
+    name: user.name,
+    phone: user.phone,
+  }
+
+  await Pet.findByIdAndUpdate(id, pet)
+
+  res.status(200).json({
+    message: `A visita foi agendada com sucesso! Entre em contato com ${pet.user.phone}`,
+  })
+
+ }
+
+ static async concludeAdoption(req, res) {
+
+  const id = req.params.id
+
+  const pet = await Pet.findOne({ _id: id })
+
+  if (!pet) {
+
+    return res.status(404).json({
+      message: 'Pet não encontrado!',
+    })
+
+  }
+
+  const token = getToken(req)
+
+  const user = await getUserByToken(token)
+
+  if (pet.user._id.toString() !== user._id.toString()) {
+
+    return res.status(422).json({
+      message: 'Houve um problema em processar sua solicitação!',
+    })
+
+  }
+
+  pet.available = false
+
+  await Pet.findByIdAndUpdate(id, pet)
+
+  res.status(200).json({
+    message: 'Parabéns! O ciclo de adoção foi finalizado com sucesso!',
+  })
+
+ }
+
 }
 
