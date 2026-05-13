@@ -11,9 +11,13 @@ module.exports = class PetController {
 
     const images = []
 
-    req.files.forEach((image) => {
-      images.push(image.filename)
-    })
+    if (req.files) {
+
+      req.files.forEach((image) => {
+        images.push(image.filename)
+      })
+
+    }
 
     if (!name) {
       return res.status(422).json({
@@ -80,6 +84,16 @@ module.exports = class PetController {
       })
 
     }
+
+  }
+
+  static async getAll(req, res) {
+
+    const pets = await Pet.find().sort('-createdAt')
+
+    res.status(200).json({
+      pets: pets,
+    })
 
   }
 
